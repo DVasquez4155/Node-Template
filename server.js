@@ -2,10 +2,11 @@
 // Server.js - This file is the initial starting point for the Node/Express server.
 // *********************************************************************************
 
-// Dependencies
-// =============================================================
+// Requiring necessary npm packages
 var express = require("express");
-
+var session = require("express-session");
+// Requiring passport as we've configured it
+var passport = require("./app/config/passport");
 // Sets up the Express App
 // =============================================================
 var app = express();
@@ -15,9 +16,21 @@ var PORT = process.env.PORT || 8080;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+app.use(require('express-session')({
+  //change secret
+  secret: 'keyboard cat',
+  resave: true,
+  saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Static directory
 app.use(express.static("app/public"));
 
+app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
+app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
+app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
 
 // Set Handlebars.
 var exphbs = require("express-handlebars");

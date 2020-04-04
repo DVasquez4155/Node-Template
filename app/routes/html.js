@@ -1,9 +1,26 @@
 // Dependencies
-var path = require("path");
+const db = require("../models");
+const isAuthenticated = require("../config/middleware/isAuthenticated");
 // Routes
 module.exports = function(app) {
-  // index route loads view.html
-  // app.get("/", function(req, res) {
-  //     res.sendFile(path.join(__dirname, "../public/view.html"));
-  // });
+  app.get("/", function(req, res) {
+    // If the user already has an account send them to the members page
+    
+    if (req.user) {
+      // Here we've add our isAuthenticated middleware to this route.
+      // If a user who is not logged in tries to access this route they will be redirected to the signup page
+    }
+  });
+  app.get("/register", function (req, res) {
+    // If the user already has an account send them to the members page
+    if (req.user) {
+      res.redirect("/");
+      return;
+    }
+    
+    res.render("signup", {
+      title: "Log In or Sign Up",
+      script: ['signup.js']
+    });
+  });
 }
