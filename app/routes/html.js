@@ -10,6 +10,18 @@ module.exports = function(app) {
       // Here we've add our isAuthenticated middleware to this route.
       // If a user who is not logged in tries to access this route they will be redirected to the signup page
     }
+    else {
+      res.render("login", {
+        title: "Log In or Sign Up",
+        script: ['login.js'],
+        link: [
+          {
+            text: 'Register',
+            link: '/register'
+          }
+        ]
+      });
+    }
   });
   app.get("/register", function (req, res) {
     // If the user already has an account send them to the members page
@@ -20,7 +32,13 @@ module.exports = function(app) {
     
     res.render("signup", {
       title: "Log In or Sign Up",
-      script: ['signup.js']
+      script: ['signup.js'],
+      link: [
+        {
+          text: 'Login',
+          link: '/'
+        }
+      ]
     });
   });
 }
